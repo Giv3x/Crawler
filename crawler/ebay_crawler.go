@@ -54,11 +54,11 @@ func Start(url string, conditionFilterString string) {
 
 func parseAndWriteItemInfo(doc *goquery.Document, wg *sync.WaitGroup, conditionFilterString string) {
 	defer wg.Done()
-	items := scrapePageData(doc, conditionFilterString)
+	items := filterAndScrapePageData(doc, conditionFilterString)
 	writeItemToJsonFile(&items)
 }
 
-func scrapePageData(doc *goquery.Document, conditionFilterString string) []Item {
+func filterAndScrapePageData(doc *goquery.Document, conditionFilterString string) []Item {
 	var items []Item
 	doc.Find("ul.srp-results>li.s-item").Each(func(index int, item *goquery.Selection) {
 		title := item.Find("div.s-item__title>span")
